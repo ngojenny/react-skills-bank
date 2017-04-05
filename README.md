@@ -1,5 +1,3 @@
-# Getting Started
+# React Skills Bank
 
-1. `git clone` this repo
-2. `npm install`
-3. enjoy!
+Building a skills bank to solidify react understanding. Used HackerYou's react boilerplate to get started.
