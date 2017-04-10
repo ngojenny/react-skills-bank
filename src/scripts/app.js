@@ -2,14 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import Search from './Search';
-import Card from './Card';
 
 class App extends React.Component {
     constructor() {
       super();
       this.state = {
         team: coreRedbit,
-        searchText: ''
+        searchText: '',
+        searchResults: []
       }
 
       this.handleChange = this.handleChange.bind(this);
@@ -17,11 +17,6 @@ class App extends React.Component {
     }
 
     assembleResults(filteredTeam) {
-      console.log('in hideComponent', filteredTeam);
-      // const teamMembers = document.querySelectorAll('.individual-card');
-      // console.log('teamMembers', teamMembers);
-      // const team = this.state.team;
-      // console.log('new Team', team);
       const newTeam = [];
 
       this.state.team.forEach((member) => {
@@ -33,37 +28,28 @@ class App extends React.Component {
       });
 
       this.setState({
-        team: newTeam
+        searchResults: newTeam
       });
 
     }
 
     handleChange(e) {
-      console.log('handing it');
       this.setState({
-        team: coreRedbit,
         [e.target.name]: e.target.value
       });
-      // console.log(this.cardComponent);
-      //if the updated searchText does not match any of the skill of the employees
-      //hide that component?
-      console.log('what is state', this.state.team);
+
       const searchText = this.state.searchText.trim().toLowerCase();
       let filteredTeam = [];
       if(searchText.length >= 0) {
         this.state.team.forEach( (member) => {
-          console.log('hello', member.skills);
-          // filteredTeam.push(member.skills.filter(skill => {return member}));
           member.skills.filter(skill => {
             if(skill.toLowerCase().match(searchText)) {
                filteredTeam.push(member.name);
             }
           });
-          // console.log('matched', matched);
         });
       }
 
-      console.log('filteredTeam', filteredTeam);
       if(filteredTeam.length){
         filteredTeam = filteredTeam.filter((item, pos) => {
           return filteredTeam.indexOf(item) === pos;
@@ -75,16 +61,11 @@ class App extends React.Component {
     }
 
     render() {
-      // console.log(this.state.team);
       return (
         <div className="app-container">
           <h1>Skills Bank</h1>
-          <Search searchText={this.state.searchText} handleChange={this.handleChange} />
+          <Search searchText={this.state.searchText} handleChange={this.handleChange} team={this.state.team} searchResults={this.state.searchResults.length ? this.state.searchResults : this.state.team}/>
           <div className="team-container">
-            {
-              this.state.team
-              .map((member, i) => <Card key={`employee${i}`} details={member} />)
-            }
           </div>
         </div>
       )
