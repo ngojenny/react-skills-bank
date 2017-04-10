@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Skills = (props) => {
-    console.log('skills', props);
+    // console.log('skills', props);
     return (
         <ul>
             {
